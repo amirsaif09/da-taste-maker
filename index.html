@@ -1,654 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Da Taste Maker - Digital Menu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Pizza Heaven - Menu | Veg Wraps, Noodles & Combos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        body {
+            background: #fef7e8;
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Roboto', sans-serif;
+            color: #2c1a0e;
+            padding: 2rem 1rem;
+        }
 
-<style>
+        .menu-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #fffaf2;
+            border-radius: 2.5rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 1.8rem 1.8rem 2.5rem 1.8rem;
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-}
+        /* header */
+        .hero {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-body{
-    background:#7d1d1d;
-    color:white;
-}
+        .hero h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, #c2410c, #e67e22);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            font-weight: 800;
+        }
 
-/* SCROLL BAR */
+        .hero p {
+            font-size: 1rem;
+            color: #b45f2b;
+            border-top: 2px solid #ffe0b5;
+            display: inline-block;
+            padding-top: 0.5rem;
+            margin-top: 0.5rem;
+        }
 
-::-webkit-scrollbar{
-    width:8px;
-}
+        /* section headers */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 2rem 0 1rem 0;
+            padding-left: 0.75rem;
+            border-left: 6px solid #e67e22;
+            color: #3b2a1f;
+        }
 
-::-webkit-scrollbar-thumb{
-    background:#ffcc00;
-    border-radius:10px;
-}
+        .section-title:first-of-type {
+            margin-top: 0.5rem;
+        }
 
-/* HEADER */
+        /* pizza grid + responsive tables */
+        .pizza-category {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            border: 1px solid #f1e2d0;
+        }
 
-header{
-    width:100%;
-    padding:20px 7%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#8f2020;
-    position:sticky;
-    top:0;
-    z-index:1000;
-    box-shadow:0 5px 20px rgba(0,0,0,0.3);
-}
+        .pizza-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            min-width: 500px;
+        }
 
-.logo{
-    font-size:35px;
-    font-weight:700;
-    color:#ffcc00;
-}
+        .pizza-table th {
+            background: #faeedf;
+            padding: 1rem 0.8rem;
+            font-weight: 700;
+            color: #b1440a;
+            font-size: 1rem;
+            border-bottom: 2px solid #ffdec2;
+        }
 
-.logo span{
-    color:white;
-}
+        .pizza-table td {
+            padding: 0.9rem 0.8rem;
+            border-bottom: 1px solid #f7e9dd;
+            vertical-align: top;
+        }
 
-nav{
-    display:flex;
-    gap:25px;
-}
+        .pizza-table tr:last-child td {
+            border-bottom: none;
+        }
 
-nav a{
-    text-decoration:none;
-    color:white;
-    font-weight:500;
-    transition:0.3s;
-}
+        .pizza-name {
+            font-weight: 700;
+            color: #2f241b;
+            display: block;
+        }
 
-nav a:hover{
-    color:#ffcc00;
-}
+        .toppings-note {
+            font-size: 0.75rem;
+            color: #a7682c;
+            margin-top: 4px;
+            font-weight: normal;
+            display: block;
+        }
 
-/* HERO */
+        .price-cell {
+            font-weight: 700;
+            color: #d35400;
+            white-space: nowrap;
+            text-align: center;
+        }
 
-.hero{
-    min-height:90vh;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:50px 7%;
-    gap:40px;
-    flex-wrap:wrap;
-}
+        .single-topping {
+            background: #fff1e2;
+            margin-top: 0.5rem;
+            border-radius: 2rem;
+            padding: 0.6rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            width: auto;
+            color: #b64926;
+        }
 
-.hero-text{
-    flex:1;
-    min-width:300px;
-}
+        /* menu grid for wraps, noodles, etc */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
 
-.hero-text h1{
-    font-size:65px;
-    line-height:1.1;
-    margin-bottom:20px;
-}
+        .menu-card {
+            background: white;
+            border-radius: 1.2rem;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            border: 1px solid #ffe2ca;
+            transition: all 0.2s ease;
+        }
 
-.hero-text h1 span{
-    color:#ffcc00;
-}
+        .menu-card:hover {
+            transform: translateY(-2px);
+            border-color: #ffcd9a;
+            box-shadow: 0 8px 18px rgba(226, 116, 14, 0.08);
+        }
 
-.hero-text p{
-    font-size:18px;
-    color:#f2f2f2;
-    margin-bottom:30px;
-    max-width:550px;
-}
+        .item-name {
+            font-weight: 600;
+            color: #3e2a1c;
+            font-size: 0.95rem;
+        }
 
-.btn{
-    display:inline-block;
-    padding:14px 35px;
-    background:#ffcc00;
-    color:#7d1d1d;
-    font-weight:700;
-    border-radius:50px;
-    text-decoration:none;
-    transition:0.3s;
-}
+        .item-price {
+            font-weight: 800;
+            color: #e67e22;
+            background: #fff2e6;
+            padding: 0.2rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+        }
 
-.btn:hover{
-    transform:translateY(-4px);
-}
+        .combo-section, .party-combo {
+            background: #fff4ea;
+            border-radius: 1.5rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+        }
 
-.hero-image{
-    flex:1;
-    min-width:300px;
-    text-align:center;
-}
+        .combo-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #b64926;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-.hero-image img{
-    width:100%;
-    max-width:550px;
-    filter:drop-shadow(0 10px 30px rgba(0,0,0,0.4));
-}
+        .combo-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
 
-/* SECTION */
+        .combo-item {
+            background: white;
+            border-radius: 1.2rem;
+            padding: 0.7rem 1rem;
+            flex: 1 1 260px;
+            border: 1px solid #ffdabc;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
 
-section{
-    padding:70px 7%;
-}
+        .combo-price {
+            color: #c2410c;
+            font-weight: 800;
+            margin-left: 10px;
+            background: #fff0e1;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 2rem;
+        }
 
-.section-title{
-    text-align:center;
-    margin-bottom:50px;
-}
+        hr {
+            margin: 1rem 0;
+            border-color: #f7e3d3;
+        }
 
-.section-title h2{
-    font-size:42px;
-    color:#ffcc00;
-}
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #b77b46;
+            border-top: 1px solid #f0decf;
+            padding-top: 1.5rem;
+        }
 
-.section-title p{
-    color:#f0f0f0;
-    margin-top:10px;
-}
+        @media (max-width: 680px) {
+            .menu-container {
+                padding: 1rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .section-title {
+                font-size: 1.4rem;
+            }
+            .pizza-table th, .pizza-table td {
+                padding: 0.7rem 0.4rem;
+            }
+        }
 
-/* MENU GRID */
+        .badge-note {
+            background: #f7e3d3;
+            border-radius: 1rem;
+            padding: 0.2rem 1rem;
+            font-size: 0.75rem;
+            margin: 0.5rem 0 0;
+            display: inline-block;
+        }
 
-.menu-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:30px;
-}
-
-.menu-card{
-    background:#922525;
-    border-radius:20px;
-    overflow:hidden;
-    transition:0.3s;
-    border:2px solid transparent;
-}
-
-.menu-card:hover{
-    transform:translateY(-8px);
-    border-color:#ffcc00;
-}
-
-.menu-card img{
-    width:100%;
-    height:220px;
-    object-fit:cover;
-}
-
-.menu-content{
-    padding:20px;
-}
-
-.menu-content h3{
-    font-size:28px;
-    color:#ffcc00;
-    margin-bottom:15px;
-}
-
-.item{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:12px;
-    padding-bottom:10px;
-    border-bottom:1px dashed rgba(255,255,255,0.2);
-}
-
-.item h4{
-    font-size:17px;
-    font-weight:500;
-}
-
-.price{
-    color:#ffcc00;
-    font-weight:700;
-}
-
-/* SPECIAL OFFER */
-
-.offer{
-    background:#ffcc00;
-    color:#7d1d1d;
-    border-radius:25px;
-    text-align:center;
-    padding:40px;
-    margin-top:60px;
-}
-
-.offer h2{
-    font-size:45px;
-    margin-bottom:10px;
-}
-
-.offer p{
-    font-size:20px;
-    margin-bottom:20px;
-}
-
-.offer button{
-    padding:14px 30px;
-    border:none;
-    border-radius:50px;
-    background:#7d1d1d;
-    color:white;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-}
-
-/* FOOTER */
-
-footer{
-    background:#5d1111;
-    padding:30px 7%;
-    text-align:center;
-    margin-top:60px;
-}
-
-footer h3{
-    color:#ffcc00;
-    margin-bottom:10px;
-}
-
-footer p{
-    margin:6px 0;
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-    .hero{
-        flex-direction:column;
-        text-align:center;
-    }
-
-    .hero-text h1{
-        font-size:45px;
-    }
-
-    nav{
-        display:none;
-    }
-
-    .section-title h2{
-        font-size:32px;
-    }
-
-    .offer h2{
-        font-size:32px;
-    }
-
-}
-
-</style>
+        .card-header {
+            font-weight: 700;
+            font-size: 1rem;
+            margin: 1rem 0 0.5rem;
+        }
+    </style>
 </head>
 <body>
-
-<!-- HEADER -->
-
-<header>
-
-    <div class="logo">
-        Da <span>Taste Maker</span>
+<div class="menu-container">
+    <div class="hero">
+        <h1>🍕 SLICE & SPICE</h1>
+        <p>🔥 authentic flavours · veg delights · irresistible combos</p>
     </div>
 
-    <nav>
-        <a href="#pizza">Pizza</a>
-        <a href="#burger">Burger</a>
-        <a href="#drinks">Drinks</a>
-        <a href="#special">Special</a>
-        <a href="#contact">Contact</a>
-    </nav>
-
-</header>
-
-<!-- HERO -->
-
-<section class="hero">
-
-    <div class="hero-text">
-        <h1>Fresh & Tasty <span>Food</span></h1>
-
-        <p>
-            Welcome to Da Taste Maker. Enjoy delicious pizzas,
-            burgers, wraps, noodles and refreshing drinks with
-            premium taste and affordable prices.
-        </p>
-
-        <a href="#pizza" class="btn">Explore Menu</a>
+    <!-- ==================== PIZZA SECTION (based on first image) ================= -->
+    <div class="section-title">🍕 Simply Veg Pizzas</div>
+    <div class="pizza-category">
+        <table class="pizza-table">
+            <thead>
+                <tr><th>Pizza Name</th><th>Personal (Serves 1)</th><th>Medium (Serves 2)</th><th>Large (Serves 4)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><span class="pizza-name">Simply Veg Pizza</span><span class="toppings-note">Loaded with cheese</span></td><td class="price-cell">₹99</td><td class="price-cell">₹249</td><td class="price-cell">₹349</td></tr>
+                <tr><td><span class="pizza-name">Margherita</span><span class="toppings-note">Loaded with cheese</span></td><td class="price-cell">₹99</td><td class="price-cell">₹249</td><td class="price-cell">₹349</td></tr>
+                <tr><td><span class="pizza-name">Tangy Spicy Corn</span><span class="toppings-note">Red Paprika, Jalapeno, Corn</span></td><td class="price-cell">₹99</td><td class="price-cell">₹249</td><td class="price-cell">₹349</td></tr>
+                <tr><td><span class="pizza-name">Da Garden Fresh</span><span class="toppings-note">Onion, Tomato, Capsicum</span></td><td class="price-cell">₹99</td><td class="price-cell">₹249</td><td class="price-cell">₹349</td></tr>
+                <tr><td><span class="pizza-name">Garlic Butter Mushroom</span><span class="toppings-note">Mushroom, Garlic, Onion</span></td><td class="price-cell">₹99</td><td class="price-cell">₹249</td><td class="price-cell">₹349</td></tr>
+                <tr><td><span class="pizza-name">Veg Corn</span><span class="toppings-note">Onion, Corn, Tomato</span></td><td class="price-cell">₹99</td><td class="price-cell">₹249</td><td class="price-cell">₹349</td></tr>
+                <tr><td><span class="pizza-name">Spice Fusion</span><span class="toppings-note">Onion, Red Paprika, Jalapeno</span></td><td class="price-cell">₹99</td><td class="price-cell">₹249</td><td class="price-cell">₹349</td></tr>
+            </tbody>
+        </table>
     </div>
 
-    <div class="hero-image">
-        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1200&auto=format&fit=crop" alt="">
+    <div class="section-title">🌿 Veg Special Pizzas</div>
+    <div class="pizza-category">
+        <table class="pizza-table">
+            <thead><tr><th>Pizza Name</th><th>Personal (Serves 1)</th><th>Medium</th><th>Large</th></tr></thead>
+            <tbody>
+                <tr><td><span class="pizza-name">Farmfresh</span><span class="toppings-note">Onion, Tomato, Capsicum, Mushroom, Red Paprika, Olive</span></td><td class="price-cell">₹129</td><td class="price-cell">₹299</td><td class="price-cell">₹399</td></tr>
+                <tr><td><span class="pizza-name">Wonder Mania</span><span class="toppings-note">Capsicum, Onion, Tomato, Corn, Jalapeno, Broccoli</span></td><td class="price-cell">₹129</td><td class="price-cell">₹299</td><td class="price-cell">₹399</td></tr>
+                <tr><td><span class="pizza-name">Da Mexicano</span><span class="toppings-note">Corn, Olive, Jalapeno, Tomato, Onion, Capsicum</span></td><td class="price-cell">₹129</td><td class="price-cell">₹299</td><td class="price-cell">₹399</td></tr>
+                <tr><td><span class="pizza-name">Veg. Supreme</span><span class="toppings-note">Red Paprika, Onion, Tomato, Corn, Olive, Mushroom</span></td><td class="price-cell">₹129</td><td class="price-cell">₹299</td><td class="price-cell">₹399</td></tr>
+                <tr><td><span class="pizza-name">Veg Deluxe</span><span class="toppings-note">Capsicum, Onion, Broccoli, Red Paprika, Mushroom</span></td><td class="price-cell">₹129</td><td class="price-cell">₹299</td><td class="price-cell">₹399</td></tr>
+                <tr><td><span class="pizza-name">Veg Overloaded</span><span class="toppings-note">Mushroom, Corn, Olive, Capsicum, Red Paprika, Onion</span></td><td class="price-cell">₹129</td><td class="price-cell">₹299</td><td class="price-cell">₹399</td></tr>
+            </tbody>
+        </table>
     </div>
 
-</section>
-
-<!-- PIZZA -->
-
-<section id="pizza">
-
-    <div class="section-title">
-        <h2>Our Pizza Menu</h2>
-        <p>Cheesy • Crispy • Delicious</p>
+    <div class="section-title">🧀 Paneer Delight Pizzas</div>
+    <div class="pizza-category">
+        <table class="pizza-table">
+            <thead><tr><th>Pizza Name</th><th>Personal (Serves 1)</th><th>Medium</th><th>Large</th></tr></thead>
+            <tbody>
+                <tr><td><span class="pizza-name">Makhani Paneer</span><span class="toppings-note">Onion, Tomato, Paneer</span></td><td class="price-cell">₹159</td><td class="price-cell">₹359</td><td class="price-cell">₹459</td></tr>
+                <tr><td><span class="pizza-name">Tandoori Paneer</span><span class="toppings-note">Capsicum, Paneer, Onion</span></td><td class="price-cell">₹159</td><td class="price-cell">₹359</td><td class="price-cell">₹459</td></tr>
+                <tr><td><span class="pizza-name">Spicy Paneer</span><span class="toppings-note">Red Paprika, Tomato, Paneer</span></td><td class="price-cell">₹159</td><td class="price-cell">₹359</td><td class="price-cell">₹459</td></tr>
+                <tr><td><span class="pizza-name">Da Veg Paneer</span><span class="toppings-note">Tomato, Onion, Corn, Capsicum, Paneer</span></td><td class="price-cell">₹159</td><td class="price-cell">₹359</td><td class="price-cell">₹459</td></tr>
+                <tr><td><span class="pizza-name">Barbeque Paneer</span><span class="toppings-note">Paneer, Red Paprika, Capsicum</span></td><td class="price-cell">₹159</td><td class="price-cell">₹359</td><td class="price-cell">₹459</td></tr>
+                <tr><td><span class="pizza-name">Achaari Paneer</span><span class="toppings-note">Tangy & Spicy Achaari Flavour Paneer, Onion</span></td><td class="price-cell">₹159</td><td class="price-cell">₹359</td><td class="price-cell">₹459</td></tr>
+            </tbody>
+        </table>
+        <div style="padding: 0.7rem 1rem 1rem 1rem;">
+            <span class="single-topping">🍅 Single Topping Pizza @ ₹69/- (Tomato, Onion, Capsicum)</span>
+        </div>
     </div>
 
+    <!-- ==================== WRAPS, NOODLES, STARTERS (Second image) ================= -->
+    <div class="section-title">🌯 Signature Wraps</div>
     <div class="menu-grid">
-
-        <div class="menu-card">
-
-            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1200&auto=format&fit=crop">
-
-            <div class="menu-content">
-
-                <h3>Simply Veg Pizza</h3>
-
-                <div class="item">
-                    <h4>Margherita</h4>
-                    <span class="price">₹99</span>
-                </div>
-
-                <div class="item">
-                    <h4>Tangy Spicy Corn</h4>
-                    <span class="price">₹99</span>
-                </div>
-
-                <div class="item">
-                    <h4>Da Garden Fresh</h4>
-                    <span class="price">₹99</span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="menu-card">
-
-            <img src="https://images.unsplash.com/photo-1594007654729-407eedc4be65?q=80&w=1200&auto=format&fit=crop">
-
-            <div class="menu-content">
-
-                <h3>Veg Special Pizza</h3>
-
-                <div class="item">
-                    <h4>Farmfresh</h4>
-                    <span class="price">₹129</span>
-                </div>
-
-                <div class="item">
-                    <h4>Wonder Mania</h4>
-                    <span class="price">₹129</span>
-                </div>
-
-                <div class="item">
-                    <h4>Veg Supreme</h4>
-                    <span class="price">₹129</span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="menu-card">
-
-            <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?q=80&w=1200&auto=format&fit=crop">
-
-            <div class="menu-content">
-
-                <h3>Paneer Delight</h3>
-
-                <div class="item">
-                    <h4>Makhani Paneer</h4>
-                    <span class="price">₹159</span>
-                </div>
-
-                <div class="item">
-                    <h4>Tandoori Paneer</h4>
-                    <span class="price">₹159</span>
-                </div>
-
-                <div class="item">
-                    <h4>Spicy Paneer</h4>
-                    <span class="price">₹159</span>
-                </div>
-
-            </div>
-
-        </div>
-
+        <div class="menu-card"><span class="item-name">Veggie Mayo Wrap</span><span class="item-price">₹89</span></div>
+        <div class="menu-card"><span class="item-name">Aloo Patty Wrap</span><span class="item-price">₹89</span></div>
+        <div class="menu-card"><span class="item-name">Mexican Salsa Wrap</span><span class="item-price">₹89</span></div>
+        <div class="menu-card"><span class="item-name">Cheese Corn Wrap</span><span class="item-price">₹99</span></div>
+        <div class="menu-card"><span class="item-name">Seekh Kabab Wrap</span><span class="item-price">₹99</span></div>
+        <div class="menu-card"><span class="item-name">Shami Kabab Wrap</span><span class="item-price">₹99</span></div>
+        <div class="menu-card"><span class="item-name">Veg Anda Bhurji Wrap</span><span class="item-price">₹99</span></div>
+        <div class="menu-card"><span class="item-name">Butter Bomb Paneer Wrap</span><span class="item-price">₹109</span></div>
+        <div class="menu-card"><span class="item-name">Mad Makhani Paneer Wrap</span><span class="item-price">₹109</span></div>
+        <div class="menu-card"><span class="item-name">Bloody Peri Paneer Wrap</span><span class="item-price">₹109</span></div>
+        <div class="menu-card"><span class="item-name">Tandoori Blast Paneer</span><span class="item-price">₹109</span></div>
+        <div class="menu-card"><span class="item-name">Badshahi Malai Tikka</span><span class="item-price">₹109</span></div>
+        <div class="menu-card"><span class="item-name">Saza-e-kalai Mirch</span><span class="item-price">₹109</span></div>
+        <div class="menu-card"><span class="item-name">Afghan Ka Shaitaan</span><span class="item-price">₹109</span></div>
+        <div class="menu-card"><span class="item-name">Lucknowi Tamanchha</span><span class="item-price">₹109</span></div>
     </div>
 
-</section>
-
-<!-- BURGER -->
-
-<section id="burger">
-
-    <div class="section-title">
-        <h2>Burgers & Snacks</h2>
-        <p>Loaded with flavor</p>
-    </div>
-
+    <div class="section-title">🍜 Noodles & Indo-Chinese</div>
     <div class="menu-grid">
-
-        <div class="menu-card">
-
-            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1200&auto=format&fit=crop">
-
-            <div class="menu-content">
-
-                <h3>Burgers</h3>
-
-                <div class="item">
-                    <h4>Aloo Tikki</h4>
-                    <span class="price">₹49</span>
-                </div>
-
-                <div class="item">
-                    <h4>Veg Crispy</h4>
-                    <span class="price">₹69</span>
-                </div>
-
-                <div class="item">
-                    <h4>Paneer Delight</h4>
-                    <span class="price">₹89</span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="menu-card">
-
-            <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1200&auto=format&fit=crop">
-
-            <div class="menu-content">
-
-                <h3>Wraps</h3>
-
-                <div class="item">
-                    <h4>Veggie Mayo</h4>
-                    <span class="price">₹89</span>
-                </div>
-
-                <div class="item">
-                    <h4>Cheese Corn</h4>
-                    <span class="price">₹99</span>
-                </div>
-
-                <div class="item">
-                    <h4>Butter Bomb Paneer</h4>
-                    <span class="price">₹109</span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="menu-card">
-
-            <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=1200&auto=format&fit=crop">
-
-            <div class="menu-content">
-
-                <h3>Fries & Momos</h3>
-
-                <div class="item">
-                    <h4>Peri Peri Fries</h4>
-                    <span class="price">₹99</span>
-                </div>
-
-                <div class="item">
-                    <h4>Steam Momos</h4>
-                    <span class="price">₹109</span>
-                </div>
-
-                <div class="item">
-                    <h4>Fried Momos</h4>
-                    <span class="price">₹139</span>
-                </div>
-
-            </div>
-
-        </div>
-
+        <div class="menu-card"><span class="item-name">Manchurian Noodles</span><span class="item-price">₹109</span></div>
+        <div class="menu-card"><span class="item-name">Schezwan Noodles</span><span class="item-price">₹109</span></div>
+        <div class="menu-card"><span class="item-name">Masala Noodles</span><span class="item-price">₹109</span></div>
+        <div class="menu-card"><span class="item-name">Chilli Garlic Noodles</span><span class="item-price">₹109</span></div>
     </div>
 
-</section>
-
-<!-- DRINKS -->
-
-<section id="drinks">
-
-    <div class="section-title">
-        <h2>Cold Drinks & Beverages</h2>
-        <p>Cool • Refreshing • Chilled</p>
-    </div>
-
+    <div class="section-title">🍟 Garlic Bread & Fries</div>
     <div class="menu-grid">
-
-        <div class="menu-card">
-
-            <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=1200&auto=format&fit=crop">
-
-            <div class="menu-content">
-
-                <h3>Cold Coffee</h3>
-
-                <div class="item">
-                    <h4>Classic</h4>
-                    <span class="price">₹89</span>
-                </div>
-
-                <div class="item">
-                    <h4>Hazelnut</h4>
-                    <span class="price">₹89</span>
-                </div>
-
-                <div class="item">
-                    <h4>Caramel</h4>
-                    <span class="price">₹89</span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="menu-card">
-
-            <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=1200&auto=format&fit=crop">
-
-            <div class="menu-content">
-
-                <h3>Lemonade</h3>
-
-                <div class="item">
-                    <h4>Masala</h4>
-                    <span class="price">₹69</span>
-                </div>
-
-                <div class="item">
-                    <h4>Jaljeera</h4>
-                    <span class="price">₹69</span>
-                </div>
-
-                <div class="item">
-                    <h4>Kacha Aam</h4>
-                    <span class="price">₹69</span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="menu-card">
-
-            <img src="https://images.unsplash.com/photo-1499638673689-79a0b5115d87?q=80&w=1200&auto=format&fit=crop">
-
-            <div class="menu-content">
-
-                <h3>Desserts</h3>
-
-                <div class="item">
-                    <h4>Choco Lava</h4>
-                    <span class="price">₹69</span>
-                </div>
-
-                <div class="item">
-                    <h4>Walnut Brownie</h4>
-                    <span class="price">₹69</span>
-                </div>
-
-            </div>
-
-        </div>
-
+        <div class="menu-card"><span class="item-name">Crispy Butter Garlic</span><span class="item-price">₹89</span></div>
+        <div class="menu-card"><span class="item-name">Cheese Garlic Bread</span><span class="item-price">₹99</span></div>
+        <div class="menu-card"><span class="item-name">Veg Cheese Garlic Bread</span><span class="item-price">₹109</span></div>
+        <div class="menu-card"><span class="item-name">Salted Fries</span><span class="item-price">₹99</span></div>
+        <div class="menu-card"><span class="item-name">Peri Peri Fries</span><span class="item-price">₹99</span></div>
+        <div class="menu-card"><span class="item-name">Tandoori Masala Fries</span><span class="item-price">₹99</span></div>
     </div>
 
-</section>
-
-<!-- OFFER -->
-
-<section id="special">
-
-    <div class="offer">
-
-        <h2>Special Combo Offer</h2>
-
-        <p>
-            Veg Special Pizza + Burger + Cold Drink
-        </p>
-
-        <h1>Only ₹215</h1>
-
-        <br>
-
-        <button>Order Now</button>
-
+    <div class="section-title">🧋 Beverages · Tea · Coffee</div>
+    <div class="menu-grid">
+        <div class="menu-card"><span class="item-name">Kulhad Chai</span><span class="item-price">₹25</span></div>
+        <div class="menu-card"><span class="item-name">Hot Coffee</span><span class="item-price">₹49</span></div>
+        <div class="menu-card"><span class="item-name">Classic Cold Coffee</span><span class="item-price">₹89</span></div>
+        <div class="menu-card"><span class="item-name">Hazelnut Cold Coffee</span><span class="item-price">₹89</span></div>
+        <div class="menu-card"><span class="item-name">Butterscotch Cold Coffee</span><span class="item-price">₹89</span></div>
+        <div class="menu-card"><span class="item-name">Caramel Cold Coffee</span><span class="item-price">₹89</span></div>
+        <div class="menu-card"><span class="item-name">Iced Tea (Watermelon)</span><span class="item-price">₹69</span></div>
+        <div class="menu-card"><span class="item-name">Iced Tea (Peach Passion)</span><span class="item-price">₹69</span></div>
+        <div class="menu-card"><span class="item-name">Iced Tea (Lemon)</span><span class="item-price">₹69</span></div>
+        <div class="menu-card"><span class="item-name">Iced Tea (Black Current)</span><span class="item-price">₹69</span></div>
+        <div class="menu-card"><span class="item-name">Iced Tea (Blueberry)</span><span class="item-price">₹69</span></div>
+        <div class="menu-card"><span class="item-name">Masala Lemonade</span><span class="item-price">₹69</span></div>
+        <div class="menu-card"><span class="item-name">Jaljeera Lemonade</span><span class="item-price">₹69</span></div>
+        <div class="menu-card"><span class="item-name">Kacha Aam Lemonade</span><span class="item-price">₹69</span></div>
     </div>
 
-</section>
+    <div class="section-title">🍫 Desserts · Nachos · Momos</div>
+    <div class="menu-grid">
+        <div class="menu-card"><span class="item-name">Choco Lava Cake</span><span class="item-price">₹69</span></div>
+        <div class="menu-card"><span class="item-name">Walnut Brownie</span><span class="item-price">₹69</span></div>
+        <div class="menu-card"><span class="item-name">Mexican Nachos</span><span class="item-price">₹99</span></div>
+        <div class="menu-card"><span class="item-name">Sizzlin' Schezwan Nachos</span><span class="item-price">₹99</span></div>
+        <div class="menu-card"><span class="item-name">Cheesy Nachos</span><span class="item-price">₹99</span></div>
+        <div class="menu-card"><span class="item-name">Veg Himalayan Steam Momo</span><span class="item-price">₹109</span></div>
+        <div class="menu-card"><span class="item-name">Veg Himalayan Fried Momo</span><span class="item-price">₹119</span></div>
+        <div class="menu-card"><span class="item-name">Paneer Steam Momo</span><span class="item-price">₹129</span></div>
+        <div class="menu-card"><span class="item-name">Paneer Fried Momo</span><span class="item-price">₹139</span></div>
+        <div class="menu-card"><span class="item-name">Cheese Corn Steam Momo</span><span class="item-price">₹129</span></div>
+        <div class="menu-card"><span class="item-name">Cheese Corn Fried Momo</span><span class="item-price">₹139</span></div>
+    </div>
 
-<!-- FOOTER -->
+    <div class="section-title">🔥 Indo-Chinese Appetisers</div>
+    <div class="menu-grid">
+        <div class="menu-card"><span class="item-name">Chilli Potato</span><span class="item-price">₹129</span></div>
+        <div class="menu-card"><span class="item-name">Honey Chilli Potato</span><span class="item-price">₹129</span></div>
+        <div class="menu-card"><span class="item-name">Chilli Garlic Potato</span><span class="item-price">₹129</span></div>
+        <div class="menu-card"><span class="item-name">Cheese Cigar</span><span class="item-price">₹139</span></div>
+        <div class="menu-card"><span class="item-name">Veg Crispy Lollipop</span><span class="item-price">₹139</span></div>
+        <div class="menu-card"><span class="item-name">Soya Chop Stick</span><span class="item-price">₹139</span></div>
+    </div>
 
-<footer id="contact">
+    <!-- ==================== COMBOS ================= -->
+    <div class="section-title">💰 Value Combos</div>
+    <div class="combo-section">
+        <div class="combo-title">🍔👑 Meal Deals</div>
+        <div class="combo-list">
+            <div class="combo-item">COMBO 1: Aloo Tikki Burger + Single Topping Pizza (6") + Cold Drink (250ml) <span class="combo-price">₹135</span></div>
+            <div class="combo-item">COMBO 2: Achari Aloo Burger + Crispy Butter Garlic Bread + Cold Drink <span class="combo-price">₹155</span></div>
+            <div class="combo-item">COMBO 3: Simply Veg Pizza (6") + 2 Da Burger + Cold Drink <span class="combo-price">₹175</span></div>
+            <div class="combo-item">COMBO 4: Chilli Cheese Burger + Peri Peri Fries + Cold Drink <span class="combo-price">₹195</span></div>
+            <div class="combo-item">COMBO 5: Veg Special Pizza (6") + Veg Crispy Burger + Cold Drink <span class="combo-price">₹215</span></div>
+            <div class="combo-item">COMBO 6: Paneer Delight Pizza (6") + Veg Makhani Burger + Cold Drink <span class="combo-price">₹235</span></div>
+        </div>
+    </div>
 
-    <h3>Da Taste Maker</h3>
+    <div class="section-title">🎉 Party Combos (Share the Feast)</div>
+    <div class="combo-section party-combo">
+        <div class="combo-list">
+            <div class="combo-item">🎈 PARTY COMBO 1 : Simply Veg Pizza (9") + 3 Da Burger + 3 Cold Drinks <span class="combo-price">₹375</span></div>
+            <div class="combo-item">🎈 PARTY COMBO 2 : Simply Veg Pizza (9") + Pasta + Crispy Butter Garlic Bread + 2 Cold Drinks <span class="combo-price">₹475</span></div>
+            <div class="combo-item">🎈 PARTY COMBO 3 : Veg Special Pizza (11") + 4 Da Burger + 4 Cold Drinks <span class="combo-price">₹575</span></div>
+        </div>
+        <div class="badge-note">✨ All combos include 250ml cold drink (can be upgraded) · perfect sharing boxes</div>
+    </div>
 
-    <p>Fresh Taste • Great Quality • Affordable Price</p>
-
-    <p>📍 Your Restaurant Address</p>
-
-    <p>📞 +91 9876543210</p>
-
-</footer>
-
+    <footer>
+        🧡 Freshly baked · 100% veg kitchen · Free delivery above ₹299 | Prices inclusive of taxes<br>
+        📸 menu inspired by original slides — taste the authentic pizza, wraps & street-style flavors
+    </footer>
+</div>
 </body>
 </html>
